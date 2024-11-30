@@ -27,6 +27,44 @@ function M.pre(api, config)
 		args[4] = args[4] * 20 -- this arg is the xp drop amount, so make everything drop 20x xp
 		return old_add_creature_spawn_chance(unpack(args)) -- call the original with the modified args
 	end
+
+	local old_register_creature = register_creature
+	function register_creature(...)
+		local allthevanillareplacements = {["body plans/antenna_bug.bod"] = true,
+		["body plans/assassin.bod"] = true,
+		["body plans/boss_baby.bod"] = true,
+		["body plans/centipede.bod"] = true,
+		["body plans/chariot.bod"] = true,
+		["body plans/d.bod"] = true,
+		["body plans/fish.bod"] = true,
+		["body plans/fish2.bod"] = true,
+		["body plans/glow_bug.bod"] = true,
+		["body plans/grub.bod"] = true,
+		["body plans/jet_squid.bod"] = true,
+		["body plans/lightning_star.bod"] = true,
+		["body plans/mini_jelly.bod"] = true,
+		["body plans/minion_worm.bod"] = true,
+		["body plans/poison_bush.bod"] = true,
+		["body plans/POLYCHAETE_TINY.bod"] = true,
+		["body plans/POLYCHAETE_TINY2.bod"] = true,
+		["body plans/SAW_SHARK.bod"] = true,
+		["body plans/shield_crab.bod"] = true,
+		["body plans/shockjelly.bod"] = true,
+		["body plans/SNAIL.bod"] = true,
+		["body plans/speedy.bod"] = true,
+		["body plans/spike_strip.bod"] = true,
+		["body plans/start_player.bod"] = true,
+		["body plans/target_dummy.bod"] = true,
+		}
+		local args = { ... } -- collect the arguments into a table for easy modification
+		if allthevanillareplacements[args[2]] then
+			local stringlength = string.len(args[2])
+			local shortenedstring = string.sub(args[2], 11, stringlength-1)
+			local extrastring = "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies"
+			args[2] = extrastring .. shortenedstring .. "d"
+		end
+		return old_register_creature(unpack(args)) -- call the original with the modified args
+	end
 end
 
 -- post hook is for defining creatures
@@ -40,9 +78,9 @@ function M.post(api, config)
 
 		-- register our creatures
 		--register_creature("FLER", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/FLEER.bod", "fleer_brain")
-		register_creature("SSRK", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/SAW_SHARK.bod", "saw_shark_brain","budding_spawn")
-		register_creature("PCTT", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/POLYCHAETE_TINY.bod", "polychaete_tiny_brain")
-		register_creature("SNYL", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/SNAIL.bod", "snail_brain")
+		--register_creature("SSRK", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/SAW_SHARK.bod", "saw_shark_brain","budding_spawn")
+		--register_creature("PCTT", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/POLYCHAETE_TINY.bod", "polychaete_tiny_brain")
+		--register_creature("SNYL", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/SNAIL.bod", "snail_brain")
 		register_creature("SNY2", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/SNAIL2.bod", "snail_brain")
 		register_creature("SNY3", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/SNAIL3.bod", "snail_brain")
 		register_creature("SNY4", "data/scripts/lua_mods/mods/PrimordialisUnhinged/bodies/SNAIL4.bod", "snail_brain")
